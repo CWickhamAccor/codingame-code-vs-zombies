@@ -1,23 +1,70 @@
 const SCALE = 20;
+const inputs = [
+    '0 0',
+    '1',
+    '0 8250 4500',
+    '1',
+    '0 8250 8999 8250 8599',
 
-function draw() {
-    const canvas = new Canvas("canvas", 16000, 9000);
-    const background = new Rectangle(0, 0, 800, 450, 'rgb(150, 150, 150)');
-    const circle = new Circle(40, 40, 15, 'rgb(0, 150, 0)');
 
-    canvas.add(background);
-    canvas.add(circle);
-    canvas.draw();
+    '500 500',
+    '1',
+    '0 8250 4500',
+    '1',
+    '0 8250 8999 8250 8599',
 
-    let i = 0;
-    const interval = setInterval(() => {
-        circle.moveRight();
+
+    '1000 1000',
+    '1',
+    '0 8250 4500',
+    '1',
+    '0 8250 8999 8250 8599',
+];
+
+/** global var **/
+let score = null;
+let canvas = null;
+let background = null;
+
+function readline() {
+    if (inputs.length === 0) { throw new Error('no inputs provided for the turn'); }
+    return inputs.shift(); //inputs contient les données générées par ton générateur
+}
+
+window.print = action => {
+    // simulate
+};
+
+
+
+/****************/
+
+function init() {
+    score = new Score();
+    canvas = new Canvas("canvas", 16000, 9000);
+    background = new Rectangle(0, 0, 16000, 9000, 'rgb(150, 150, 150)');
+}
+
+function draw(turns) {
+    let timerId = setInterval(() => {
+        const turn = turns.shift();
+        console.log(turn);
+        const { ash, zombies, humans, score: newScore } = turn.factory();
+        const ashRange = new AshRange(ash);
+        console.log(ashRange);
+        score.value = newScore;
+
+        canvas.add(background);
+        canvas.add(ashRange);
+        canvas.add(ash);
+        humans.forEach(h => canvas.add(h));
+        zombies.forEach(z => {
+            canvas.add(z);
+            // z.graphicUpdate();
+        });
+        // ash.graphicUpdate();
         canvas.draw();
-        console.log('coucou');
-        i++;
-
-    },5);
-    // if (i > 50) {
-    //     clearInterval(interval);
-    // }
+        canvas.clear();
+    }, 500);
+    // setTimeout(() => clearTimeout(timerId), 10000);
 }

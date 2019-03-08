@@ -1,0 +1,14 @@
+#main {
+    display: flex;
+    align-items: stretch;
+}
+
+#canvas {
+    border: 1px solid white;
+}
+
+#scoreboard {
+    width: 100%;
+    text-align: center;
+    color: white;
+}
