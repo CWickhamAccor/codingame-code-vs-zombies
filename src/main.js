@@ -38,8 +38,7 @@ function simulate(ash, humans, zombies) {
         ashDirections.push(dir);
     }
 
-    // while(zombies.length && humans.length) {
-    for(let i = 0; i < 50; i++) {
+    while(zombies.length && humans.length) {
         ash.directions.push(ashDirections.pop());
         ash.updateDirection();
 
@@ -48,6 +47,20 @@ function simulate(ash, humans, zombies) {
 
         zombies.forEach(z => z.update(400));
         ash.update(1000);
+        zombies.forEach((z, i) => {
+            if (getDistance(ash.x, ash.y, z.x, z.y) <= 2000) {
+                console.log('got ya');
+                zombies.splice(i, 1);
+                score += 50;
+            } else {
+                humans.forEach((h, j) => {
+                    if (getDistance(z.x, z.y, h.x, h.y) <= 400) {
+                        console.log('ded');
+                        humans.splice(j, 1);
+                    }
+                })
+            }
+        });
         turns.push(new Turn(ash, zombies, humans, score));
     }
 
@@ -62,7 +75,6 @@ function main() {
 
     const data = simulate(ash, humans, zombies);
 
-    // console.log(data);
     draw(data);
 
     print('16000 9000'); // Your destination coordinates

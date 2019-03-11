@@ -43,7 +43,7 @@ class Ash extends Circle {
 
 class AshRange extends Circle {
     constructor(ash) {
-        super(ash.x, ash.y, 1000, 'rgba(200, 150, 0, 0.5)');
+        super(ash.x, ash.y, 2000, 'rgba(200, 150, 0, 0.5)');
         ash.range = this;
     }
 }

@@ -51,20 +51,22 @@ function draw(turns) {
         console.log(turn);
         const { ash, zombies, humans, score: newScore } = turn.factory();
         const ashRange = new AshRange(ash);
-        console.log(ashRange);
         score.value = newScore;
 
-        canvas.add(background);
-        canvas.add(ashRange);
-        canvas.add(ash);
-        humans.forEach(h => canvas.add(h));
-        zombies.forEach(z => {
-            canvas.add(z);
-            // z.graphicUpdate();
-        });
-        // ash.graphicUpdate();
-        canvas.draw();
-        canvas.clear();
-    }, 500);
-    // setTimeout(() => clearTimeout(timerId), 10000);
+        // setInterval(() => {
+            canvas.add(background);
+            canvas.add(ashRange);
+            canvas.add(ash);
+            humans.forEach(h => canvas.add(h));
+            zombies.forEach(z => {
+                canvas.add(z);
+                // z.graphicUpdate();
+            });
+            // ash.graphicUpdate();
+            canvas.draw();
+            canvas.clear();
+        // }, 10);
+
+    }, 300);
+    setTimeout(() => clearTimeout(timerId), 300 * turns.length);
 }
