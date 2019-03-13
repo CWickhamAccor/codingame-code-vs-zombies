@@ -20,8 +20,8 @@ class Human extends Circle {
 }
 
 class Ash extends Circle {
-    constructor(x, y, dirx, diry) {
-        super(x, y, 200, 'rgb(0, 150, 0)');
+    constructor(x, y, dirx, diry, color) {
+        super(x, y, 200, color);
         this.directions = [];
         this.dir = { x: dirx, y: diry };
     }
@@ -43,7 +43,7 @@ class Ash extends Circle {
 
 class AshRange extends Circle {
     constructor(ash) {
-        super(ash.x, ash.y, 2000, 'rgba(200, 150, 0, 0.5)');
+        super(ash.x, ash.y, 2000, 'rgba(200, 50, 10, 0.25)');
         ash.range = this;
     }
 }

@@ -19,7 +19,7 @@ class DrawableElement {
         ctx.beginPath();
         ctx.arc(this.x / SCALE, this.y / SCALE, this.r / SCALE, 0, 2 * Math.PI);
         ctx.fillStyle = this.color;
-        ctx.stroke();
+        // ctx.stroke();
         ctx.fill();
     }
     move(x, y, speed) {

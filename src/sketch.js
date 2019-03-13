@@ -1,25 +1,15 @@
 const SCALE = 20;
-const inputs = [
+const SPEED = 200;
+const inputsRef = [
     '0 0',
-    '1',
+    '2',
     '0 8250 4500',
-    '1',
-    '0 8250 8999 8250 8599',
-
-
-    '500 500',
-    '1',
-    '0 8250 4500',
-    '1',
-    '0 8250 8999 8250 8599',
-
-
-    '1000 1000',
-    '1',
-    '0 8250 4500',
-    '1',
-    '0 8250 8999 8250 8599',
+    '1 14250 8500',
+    '2',
+    '0 2250 4899 8250 8599',
+    '1 6250 6999 6250 4599',
 ];
+let inputs = [];
 
 /** global var **/
 let score = null;
@@ -27,7 +17,10 @@ let canvas = null;
 let background = null;
 
 function readline() {
-    if (inputs.length === 0) { throw new Error('no inputs provided for the turn'); }
+    if (inputs.length === 0) {
+        // throw new Error('no inputs provided for the turn');
+        inputs = [...inputsRef];
+    }
     return inputs.shift(); //inputs contient les données générées par ton générateur
 }
 
@@ -45,28 +38,23 @@ function init() {
     background = new Rectangle(0, 0, 16000, 9000, 'rgb(150, 150, 150)');
 }
 
-function draw(turns) {
-    let timerId = setInterval(() => {
-        const turn = turns.shift();
-        console.log(turn);
-        const { ash, zombies, humans, score: newScore } = turn.factory();
-        const ashRange = new AshRange(ash);
-        score.value = newScore;
-
-        // setInterval(() => {
+function draw(games, genCount) {
+    return new Promise((resolve, reject) => {
+        const maxTurns = Math.max(...games.map(g => g.length));
+        let maxScore = 0;
+        console.log('turns : ', maxTurns);
+        let timerId = setInterval(() => {
             canvas.add(background);
-            canvas.add(ashRange);
-            canvas.add(ash);
-            humans.forEach(h => canvas.add(h));
-            zombies.forEach(z => {
-                canvas.add(z);
-                // z.graphicUpdate();
+            games.forEach(g => {
+                maxScore = canvas.update(g, maxScore);
+                score.value = `Generation: ${genCount}, score: ${maxScore}`;
             });
-            // ash.graphicUpdate();
             canvas.draw();
             canvas.clear();
-        // }, 10);
-
-    }, 300);
-    setTimeout(() => clearTimeout(timerId), 300 * turns.length);
+        }, SPEED);
+        setTimeout(() => {
+            clearTimeout(timerId);
+            return resolve();
+        }, SPEED * maxTurns);
+    })
 }

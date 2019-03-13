@@ -1,5 +1,5 @@
 class Turn {
-    constructor(ash, zombies, humans, score) {
+    constructor(ash, zombies, humans, score, color) {
         this.ash = {
             x: ash.x,
             y: ash.y,
@@ -17,11 +17,12 @@ class Turn {
             id: h.id,
         }));
         this.score = score;
+        this.color = color;
     }
 
     factory() {
         return {
-            ash: new Ash(this.ash.x, this.ash.y, this.ash.dir.x, this.ash.dir.y),
+            ash: new Ash(this.ash.x, this.ash.y, this.ash.dir.x, this.ash.dir.y, this.color),
             zombies: this.zombies.map(z => new Zombie(z.x, z.y, z.dir.x, z.dir.y, z.id)),
             humans: this.humans.map(h => new Human(h.x, h.y, h.id)),
             score: this.score,
